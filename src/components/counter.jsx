@@ -1,34 +1,41 @@
 import React, {Component} from "react";
-import {INCREMENT,DECREMENT} from  '../redux/action-types'
+import PropTypes from 'prop-types'
 
-export default class App extends Component {
+
+export default  class Counter extends Component {
+
+  static propTypes = {
+    count: PropTypes.number.isRequired,
+    increment: PropTypes.func.isRequired,
+    decrement: PropTypes.func.isRequired
+  }
 
 
   increment = () => {
     const {value} = this.value
-    this.props.store.dispatch({type:INCREMENT,data : value * 1})
+    this.props.increment(value * 1)
   }
   decrement = () => {
     const {value} = this.value
-    this.props.store.dispatch({type:DECREMENT,data : value *1})
+    this.props.decrement(value * 1)
   }
   incrementOdd = () => {
-    const count = this.props.store.getState()
+    const {count} = this.props
     const {value} = this.value
     if(count%2 === 1){
-      this.props.store.dispatch({type:INCREMENT,data: value * 1})
+      this.props.increment(value * 1)
     }
   }
   incrementAsync = () => {
     const {value} = this.value
     setTimeout(() => {
-      this.props.store.dispatch({type:INCREMENT,data: value * 1})
+      this.props.increment(value * 1)
     },1000)
 
   }
 
   render() {
-    const count = this.props.store.getState()
+    const {count} = this.props
 
     return (
       <div>
@@ -48,3 +55,4 @@ export default class App extends Component {
     )
   }
 }
+
